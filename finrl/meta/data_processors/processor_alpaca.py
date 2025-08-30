@@ -14,6 +14,7 @@ from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 from stockstats import StockDataFrame as Sdf
 
+
 class AlpacaProcessor:
     def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, client=None):
         if client is None:
