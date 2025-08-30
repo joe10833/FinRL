@@ -6,7 +6,7 @@ import datetime
 import threading
 import time
 
-import alpaca_trade_api as tradeapi
+import alpaca as tradeapi
 import gym
 import numpy as np
 import pandas as pd
