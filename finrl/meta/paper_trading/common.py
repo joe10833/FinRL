@@ -798,7 +798,7 @@ def test(
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
 
-import alpaca_trade_api as tradeapi
+import alpaca as tradeapi
 import pandas_market_calendars as tc
 import numpy as np
 import pandas as pd
