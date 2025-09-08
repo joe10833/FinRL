@@ -7,11 +7,11 @@ import threading
 import time
 
 import alpaca
-from alpaca.trading.client import TradingClient
 import gymnasium as gym
 import numpy as np
 import pandas as pd
 import torch
+from alpaca.trading.client import TradingClient
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 from finrl.meta.paper_trading.common import AgentPPO
@@ -95,7 +95,9 @@ class PaperTradingAlpaca:
 
         # connect to Alpaca trading API
         try:
-            self.alpaca = TradingClient(api_key=API_KEY, secret_key=SECRET_KEY,paper=True)
+            self.alpaca = TradingClient(
+                api_key=API_KEY, secret_key=SECRET_KEY, paper=True
+            )
         except:
             raise ValueError(
                 "Fail to connect Alpaca. Please check account info and internet connection."
