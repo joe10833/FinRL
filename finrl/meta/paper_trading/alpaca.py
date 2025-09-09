@@ -6,11 +6,12 @@ import datetime
 import threading
 import time
 
-import alpaca as tradeapi
-import gym
+import alpaca
+import gymnasium as gym
 import numpy as np
 import pandas as pd
 import torch
+from alpaca.trading.client import TradingClient
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 from finrl.meta.paper_trading.common import AgentPPO
@@ -94,7 +95,9 @@ class PaperTradingAlpaca:
 
         # connect to Alpaca trading API
         try:
-            self.alpaca = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+            self.alpaca = TradingClient(
+                api_key=API_KEY, secret_key=SECRET_KEY, paper=True
+            )
         except:
             raise ValueError(
                 "Fail to connect Alpaca. Please check account info and internet connection."
@@ -168,7 +171,7 @@ class PaperTradingAlpaca:
                 print("Market closing soon.  Closing positions.")
 
                 threads = []
-                positions = self.alpaca.list_positions()
+                positions = self.alpaca.get_all_positions()
                 for position in positions:
                     if position.side == "long":
                         orderSide = "sell"
@@ -280,7 +283,7 @@ class PaperTradingAlpaca:
 
         else:  # sell all when turbulence
             threads = []
-            positions = self.alpaca.list_positions()
+            positions = self.alpaca.get_all_positions()
             for position in positions:
                 if position.side == "long":
                     orderSide = "sell"
@@ -313,7 +316,7 @@ class PaperTradingAlpaca:
         ).astype(np.float32)
 
         tech = tech * 2**-7
-        positions = self.alpaca.list_positions()
+        positions = self.alpaca.get_all_positions()
         stocks = [0] * len(self.stockUniverse)
         for position in positions:
             ind = self.stockUniverse.index(position.symbol)
